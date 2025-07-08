@@ -15,7 +15,6 @@ export default function QuizScreen() {
   const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState<number[]>([]);
   const [infoVisible, setInfoVisible] = useState(false);
@@ -63,26 +62,25 @@ export default function QuizScreen() {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   const handleAnswerSelect = (answerIndex: number) => {
-    if (showResult) return; // Prevent changing answer after submission
     setSelectedAnswer(answerIndex);
-  };
-
-  const handleSubmitAnswer = () => {
-    if (selectedAnswer === null) return;
     
-    setShowResult(true);
-    setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
-    
-    if (selectedAnswer === currentQuestion.correctAnswer) {
+    // Check if answer is correct
+    if (answerIndex === currentQuestion.correctAnswer) {
       setScore(score + 1);
+    }
+    
+    // Mark question as answered
+    if (!answeredQuestions.includes(currentQuestionIndex)) {
+      setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
     }
   };
 
   const handleNextQuestion = () => {
+    if (selectedAnswer === null) return;
+    
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedAnswer(null);
-      setShowResult(false);
     } else {
       // Quiz completed - navigate to results page
       router.push({
@@ -156,47 +154,33 @@ export default function QuizScreen() {
           <View className="space-y-3">
             {currentQuestion.options.map((option, index) => {
               const isSelected = selectedAnswer === index;
-              const isCorrect = index === currentQuestion.correctAnswer;
-              const showCorrect = showResult && isCorrect;
-              const showIncorrect = showResult && isSelected && !isCorrect;
 
               return (
                 <TouchableOpacity
                   key={index}
                   className={`p-4 rounded-xl border-2 ${
-                    showCorrect ? 'bg-green-100 border-green-600' :
-                    showIncorrect ? 'bg-red-100 border-red-600' :
                     isSelected ? 'bg-blue-100 border-blue-600' :
                     'bg-white border-gray-200'
                   }`}
-                  onPress={!showResult ? () => handleAnswerSelect(index) : undefined}
+                  onPress={() => handleAnswerSelect(index)}
                   activeOpacity={0.7}
                   style={{
                     borderBottomWidth: 3,
                     borderRightWidth: 2,
-                    borderBottomColor: showCorrect ? '#14532d' : 
-                                     showIncorrect ? '#7f1d1d' :
-                                     isSelected ? '#1e3a8a' : '#d1d5db',
-                    borderRightColor: showCorrect ? '#15803d' : 
-                                    showIncorrect ? '#991b1b' :
-                                    isSelected ? '#1e40af' : '#d1d5db',
-                    opacity: showResult ? 0.8 : 1,
+                    borderBottomColor: isSelected ? '#1e3a8a' : '#d1d5db',
+                    borderRightColor: isSelected ? '#1e40af' : '#d1d5db',
                   }}
                 >
                   <View className="flex-row items-center">
                     <View className={`w-6 h-6 rounded-full border-2 mr-3 items-center justify-center ${
-                      showCorrect ? 'bg-green-600 border-green-600' :
-                      showIncorrect ? 'bg-red-600 border-red-600' :
                       isSelected ? 'bg-blue-600 border-blue-600' :
                       'bg-white border-gray-400'
                     }`}>
-                      {(isSelected || showCorrect) && (
+                      {isSelected && (
                         <View className="w-3 h-3 rounded-full bg-white" />
                       )}
                     </View>
                     <Text className={`flex-1 text-base ${
-                      showCorrect ? 'text-green-800 font-semibold' :
-                      showIncorrect ? 'text-red-800 font-semibold' :
                       isSelected ? 'text-blue-800 font-semibold' :
                       'text-gray-700'
                     }`}>
@@ -208,13 +192,6 @@ export default function QuizScreen() {
             })}
           </View>
 
-          {/* Explanation (shown after answer) */}
-          {showResult && (
-            <View className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-              <Text className="text-sm font-semibold text-blue-800 mb-1">Explanation:</Text>
-              <Text className="text-sm text-blue-700">{currentQuestion.explanation}</Text>
-            </View>
-          )}
         </View>
       </ScrollView>
 
@@ -222,11 +199,9 @@ export default function QuizScreen() {
       <View className="px-6 pb-10 pt-2 bg-[#F1E6D4]">
         <TouchableOpacity
           className={`py-4 rounded-full ${
-            showResult ? 'bg-[#00522A]' : 
-            selectedAnswer !== null ? 'bg-blue-600' : 
-            'bg-gray-400'
+            selectedAnswer !== null ? 'bg-[#00522A]' : 'bg-gray-400'
           }`}
-          onPress={(selectedAnswer !== null || showResult) ? (showResult ? handleNextQuestion : handleSubmitAnswer) : undefined}
+          onPress={() => handleNextQuestion()}
           activeOpacity={0.8}
           style={{
             shadowColor: '#000',
@@ -237,17 +212,14 @@ export default function QuizScreen() {
             borderWidth: 1,
             borderBottomWidth: 3,
             borderRightWidth: 2,
-            borderColor: showResult ? '#00451F' : 
-                        selectedAnswer !== null ? '#1e3a8a' : '#d1d5db',
-            borderBottomColor: showResult ? '#002e14' : 
-                              selectedAnswer !== null ? '#1e3a8a' : '#d1d5db',
-            borderRightColor: showResult ? '#002e14' : 
-                             selectedAnswer !== null ? '#1e40af' : '#d1d5db',
-            opacity: (selectedAnswer === null && !showResult) ? 0.6 : 1,
+            borderColor: selectedAnswer !== null ? '#00451F' : '#d1d5db',
+            borderBottomColor: selectedAnswer !== null ? '#002e14' : '#d1d5db',
+            borderRightColor: selectedAnswer !== null ? '#002e14' : '#d1d5db',
+            opacity: selectedAnswer === null ? 0.6 : 1,
           }}
         >
           <Text className="text-white text-center font-bold text-lg">
-            {showResult ? (isLastQuestion ? 'View Results' : 'Next Question') : 'Submit Answer'}
+            {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -263,12 +235,11 @@ export default function QuizScreen() {
           <View className="bg-white rounded-2xl p-6 w-full max-w-md">
             <Text className="text-xl font-bold mb-4 text-center">How to take the quiz</Text>
             <Text className="text-gray-700 mb-6">
-              1. Read each question carefully{'\n'}
-              2. Select your answer by tapping on an option{'\n'}
-              3. Tap "Submit Answer" to check if you're correct{'\n'}
-              4. Learn from the explanation provided{'\n'}
-              5. Continue to the next question{'\n\n'}
-              Your progress is saved automatically.
+              1. Read each question carefully{`\n`}
+              2. Select your answer by tapping on an option{`\n`}
+              3. Tap "Next Question" to continue{`\n`}
+              4. Complete all questions to see your results{`\n\n`}
+              Your score is calculated automatically.
             </Text>
             <TouchableOpacity
               className="bg-[#00522A] py-3 rounded-full"
