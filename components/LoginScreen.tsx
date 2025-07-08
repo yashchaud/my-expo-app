@@ -1,19 +1,27 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Video, ResizeMode } from 'expo-av';
 
 const LoginScreen = () => {
+  const video = React.useRef(null);
+
   return (
     <View style={styles.container}>
-      {/* Image Section */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={require('../assets/login_header_image.png')}
-          style={styles.headerImage}
-          resizeMode="cover"
+      <View style={styles.videoContainer}>
+        <Video
+          ref={video}
+          style={styles.video}
+          source={{
+            uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+          }}
+          useNativeControls={false}
+          resizeMode={ResizeMode.COVER}
+          isLooping
+          shouldPlay
+          isMuted
         />
       </View>
 
-      {/* Login Form Section */}
       <View style={styles.formContainer}>
         <Text style={styles.loginTitle}>Login</Text>
 
@@ -43,11 +51,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  imageContainer: {
+  videoContainer: {
     width: '100%',
-    height: '40%', // Adjust height as needed
+    height: '40%',
   },
-  headerImage: {
+  video: {
     width: '100%',
     height: '100%',
   },
@@ -58,7 +66,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingTop: 30,
-    marginTop: -20, // Overlap with the image slightly
+    marginTop: -20, // Overlap with the video
     alignItems: 'center',
   },
   loginTitle: {
@@ -81,7 +89,7 @@ const styles = StyleSheet.create({
   loginButton: {
     width: '90%',
     height: 50,
-    backgroundColor: '#28a745', // Green color from image
+    backgroundColor: '#28a745',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -102,10 +110,11 @@ const styles = StyleSheet.create({
   },
   createAccountLink: {
     fontSize: 16,
-    color: '#28a745', // Green color from image
+    color: '#28a745',
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },
 });
 
 export default LoginScreen;
+
