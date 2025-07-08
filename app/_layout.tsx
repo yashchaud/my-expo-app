@@ -15,6 +15,14 @@ export default function RootLayout() {
         <Stack.Screen name="learn" options={{ headerShown: false }} />
         <Stack.Screen name="quiz" options={{ headerShown: false }} />
         <Stack.Screen name="quizResults" options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="videoIntroduction" 
+          options={{ 
+            headerShown: false,
+            presentation: 'fullScreenModal',
+            animation: 'slide_from_bottom'
+          }} 
+        />
       </Stack>
     </>
   );
