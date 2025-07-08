@@ -62,22 +62,14 @@ const SelectLanguageScreen = () => {
                 ? 'bg-green-600'
                 : 'bg-gray-400'
             }`}
-            onPress={handleGoToHomepage}
-            disabled={!selectedLanguage}
-          >
+            onPress={handleWatchIntroduction}
+           >
             <Text className="text-white text-lg font-semibold">
               Go to Homepage
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            className="w-full h-14 border-2 border-gray-300 rounded-xl justify-center items-center"
-            onPress={handleWatchIntroduction}
-          >
-            <Text className="text-gray-700 text-lg font-medium">
-              Watch Introduction
-            </Text>
-          </TouchableOpacity>
+       
         </View>
       </View>
     </ScrollView>

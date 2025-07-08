@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Linking } from 'react-native';
+import { useRouter } from 'expo-router';
 
 const ReferenceLinksQuiz = () => {
+  const router = useRouter();
   const [selectedRating, setSelectedRating] = useState(0);
   const [suggestions, setSuggestions] = useState('');
 
@@ -42,14 +44,16 @@ const ReferenceLinksQuiz = () => {
  
 
       {/* Take Quiz Button */}
-      <TouchableOpacity className="bg-green-600 rounded-lg py-2 mb-4">
+      <TouchableOpacity
+      onPress={() => router.push('/quiz')}
+      className="bg-green-600 rounded-lg py-2 mb-4">
         <Text className="text-white text-center font-semibold text-lg">Take quiz</Text>
       </TouchableOpacity>
 
       {/* Download Offline Button */}
-      <TouchableOpacity className="bg-gray-100 border border-gray-300 rounded-lg py-2 mb-12">
+      {/* <TouchableOpacity onPress={() => router.push('/quizResults')} className="bg-gray-100 border border-gray-300 rounded-lg py-2 mb-12">
         <Text className="text-gray-700 text-center font-medium">Download OFFLINE</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

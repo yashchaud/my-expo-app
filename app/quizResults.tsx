@@ -178,7 +178,7 @@ export default function QuizResultsScreen() {
         </TouchableOpacity>
 
         {/* Continue Learning Button */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="py-4 rounded-full bg-[#00522A] mb-3 flex-row items-center justify-center"
           onPress={handleContinueLearning}
           activeOpacity={0.8}
@@ -200,10 +200,10 @@ export default function QuizResultsScreen() {
           <Text className="text-white text-center font-bold text-lg ml-2">
             Continue Learning
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* Home Button */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="py-3"
           onPress={handleGoHome}
           activeOpacity={0.7}
@@ -214,7 +214,7 @@ export default function QuizResultsScreen() {
               Back to Topics
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

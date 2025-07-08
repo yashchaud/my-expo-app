@@ -40,10 +40,10 @@ const ResponsiveMaps = () => {
       <View className="bg-white rounded-lg overflow-hidden mb-6">
         <Image
           source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Maharashtra_district_location_map_Latur.svg/800px-Maharashtra_district_location_map_Latur.svg.png'
+            uri: 'https://images.unsplash.com/photo-1592397950338-54b726597959?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
           }}
           className="w-full h-64"
-          resizeMode="contain"
+          resizeMode="cover"
         />
       </View>
 
