@@ -1,120 +1,121 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { Video, ResizeMode } from 'expo-av';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 const LoginScreen = () => {
-  const video = React.useRef(null);
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async () => {
+    if (!mobileNumber) {
+      return;
+    }
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.videoContainer}>
-        <Video
-          ref={video}
-          style={styles.video}
-          source={{
-            uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-          }}
-          useNativeControls={false}
-          resizeMode={ResizeMode.COVER}
-          isLooping
-          shouldPlay
-          isMuted
-        />
-      </View>
-
-      <View style={styles.formContainer}>
-        <Text style={styles.loginTitle}>Login</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Mobile number"
-          keyboardType="phone-pad"
-        />
-
-        <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginButtonText}>LOGIN</Text>
-        </TouchableOpacity>
-
-        <View style={styles.createAccountContainer}>
-          <Text style={styles.createAccountText}>You do not have account ? </Text>
-          <TouchableOpacity>
-            <Text style={styles.createAccountLink}>Create New Account Here</Text>
-          </TouchableOpacity>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      className="flex-1 bg-blue-50"
+    >
+      <StatusBar style="dark" />
+      <ScrollView 
+        className="flex-1" 
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header Section with Illustration */}
+        <View className="flex-1 justify-center items-center px-6 pt-12">
+          {/* Illustration Placeholder */}
+          <View className="w-80 h-64 bg-white rounded-3xl shadow-lg mb-8 justify-center items-center">
+            <View className="w-64 h-48 bg-gradient-to-br from-orange-200 to-yellow-200 rounded-2xl justify-center items-center">
+              {/* Simple illustration with NativeWind */}
+              <View className="flex-row space-x-4">
+                <View className="w-12 h-12 bg-orange-500 rounded-full opacity-80" />
+                <View className="w-8 h-8 bg-yellow-500 rounded-full mt-2 opacity-70" />
+              </View>
+              <View className="w-32 h-2 bg-green-400 rounded-full mt-4 opacity-60" />
+              <View className="w-24 h-2 bg-blue-400 rounded-full mt-2 opacity-50" />
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+
+        {/* Login Form Section */}
+        <View className="bg-white rounded-t-3xl px-6 py-8 shadow-2xl">
+          <Text className="text-3xl font-bold text-gray-800 text-center mb-8">Login</Text>
+          
+          {/* Mobile Number Input */}
+          <View className="mb-6">
+            <Text className="text-gray-600 text-sm font-medium mb-2 ml-1">Mobile Number</Text>
+            <View className="relative">
+              <TextInput
+                className="w-full h-14 bg-gray-50 border border-gray-200 rounded-xl px-4 text-gray-800 text-base focus:border-green-500 focus:bg-white"
+                placeholder="Enter your mobile number"
+                placeholderTextColor="#9CA3AF"
+                keyboardType="phone-pad"
+                value={mobileNumber}
+                onChangeText={setMobileNumber}
+                maxLength={10}
+              />
+              <View className="absolute right-4 top-4">
+                <View className="w-6 h-6 bg-green-100 rounded-full justify-center items-center">
+                  <Text className="text-green-600 text-xs font-bold">📱</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Login Button */}
+          <TouchableOpacity 
+            className={`w-full h-14 rounded-xl justify-center items-center mb-6 shadow-lg ${
+              isLoading ? 'bg-gray-400' : 'bg-green-600 active:bg-green-700'
+            }`}
+            onPress={handleLogin}
+            disabled={isLoading || !mobileNumber}
+          >
+            <Text className="text-white text-lg font-bold tracking-wide">
+              {isLoading ? 'LOGGING IN...' : 'LOGIN'}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Divider */}
+          <View className="flex-row items-center mb-6">
+            <View className="flex-1 h-px bg-gray-300" />
+            <Text className="mx-4 text-gray-500 text-sm">or</Text>
+            <View className="flex-1 h-px bg-gray-300" />
+          </View>
+
+          {/* Social Login Options */}
+          <View className="flex-row justify-center space-x-4 mb-8">
+            <TouchableOpacity className="w-12 h-12 bg-blue-600 rounded-full justify-center items-center">
+              <Text className="text-white font-bold">f</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="w-12 h-12 bg-red-500 rounded-full justify-center items-center">
+              <Text className="text-white font-bold">G</Text>
+            </TouchableOpacity>
+            <TouchableOpacity className="w-12 h-12 bg-gray-800 rounded-full justify-center items-center">
+              <Text className="text-white font-bold">@</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Create Account Link */}
+          <View className="items-center">
+            <Text className="text-gray-600 text-base mb-2">Don't have an account?</Text>
+            <TouchableOpacity className="py-2 px-4">
+              <Text className="text-green-600 text-base font-semibold underline">
+                Create New Account Here
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  videoContainer: {
-    width: '100%',
-    height: '40%',
-  },
-  video: {
-    width: '100%',
-    height: '100%',
-  },
-  formContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingHorizontal: 20,
-    paddingTop: 30,
-    marginTop: -20, // Overlap with the video
-    alignItems: 'center',
-  },
-  loginTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 30,
-  },
-  input: {
-    width: '90%',
-    height: 50,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    marginBottom: 20,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  loginButton: {
-    width: '90%',
-    height: 50,
-    backgroundColor: '#28a745',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  createAccountContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  createAccountText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  createAccountLink: {
-    fontSize: 16,
-    color: '#28a745',
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-  },
-});
 
 export default LoginScreen;
 
