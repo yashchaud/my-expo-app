@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 const LoginScreen = () => {
