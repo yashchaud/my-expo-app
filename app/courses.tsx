@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { CircleArrowLeft, HelpCircle, Tractor, Landmark, Beef, Bug, Carrot, Users, Check } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -50,6 +50,8 @@ const TopicCard = ({ icon, title, onPress, color, isSelected }: TopicCardProps) 
 export default function CoursesScreen() {
   const router = useRouter();
   const [selectedTopics, setSelectedTopics] = useState<number[]>([]);
+  const [infoVisible, setInfoVisible] = useState(false);
+  const isDisabled = selectedTopics.length === 0;
 
   const topics = [
     { id: 1, title: 'Farming', icon: <Tractor size={40} color="#16a34a" />, color: '#16a34a' },
@@ -79,7 +81,7 @@ export default function CoursesScreen() {
             <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
               <CircleArrowLeft size={26} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
+            <TouchableOpacity onPress={() => setInfoVisible(true)} activeOpacity={0.7}>
               <View className="w-10 h-10 rounded-full items-center justify-center">
                 <HelpCircle size={22} color="black" />
               </View>
@@ -118,13 +120,34 @@ export default function CoursesScreen() {
         </View>
       </ScrollView>
       
-      {/* Next Button */}
-      <View className="px-6 pb-10 pt-2 bg-[#fdfaf4]">
-        <TouchableOpacity 
-          className={`py-4 rounded-full ${selectedTopics.length > 0 ? 'bg-[#00522A]' : 'bg-gray-400'}`}
-          onPress={() => selectedTopics.length > 0 && console.log('Next pressed with topics:', selectedTopics)}
-          activeOpacity={selectedTopics.length > 0 ? 0.8 : 1}
-          disabled={selectedTopics.length === 0}
+   
+      
+        {/* Action Button */}
+        <TouchableOpacity
+          className={`py-4 rounded-full mx-6 mb-11 ${isDisabled ? 'bg-gray-300' : 'bg-[#00522A]'}`}
+          onPress={() => {
+            if (!isDisabled) {
+              const selectedTopicNames = topics
+                .filter(topic => selectedTopics.includes(topic.id))
+                .map(topic => topic.title);
+              router.push(`/learn?topics=${encodeURIComponent(JSON.stringify(selectedTopicNames))}`);
+            }
+          }}
+          activeOpacity={!isDisabled ? 0.8 : 1}
+          disabled={isDisabled}
+          style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.25,
+            shadowRadius: 5.84,
+            elevation: 8,
+            borderWidth: 1,
+            borderBottomWidth: 3,
+            borderRightWidth: 2,
+            borderColor: isDisabled ? '#d1d5db' : '#00451F',
+            borderBottomColor: isDisabled ? '#d1d5db' : '#002e14',
+            borderRightColor: isDisabled ? '#d1d5db' : '#002e14',
+          }}
         >
           <Text className="text-white text-center font-bold text-lg">
             {selectedTopics.length > 0 
@@ -133,7 +156,32 @@ export default function CoursesScreen() {
             }
           </Text>
         </TouchableOpacity>
-      </View>
+       
+      {/* Info Modal */}
+      <Modal
+        visible={infoVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setInfoVisible(false)}
+      >
+        <View className="flex-1 bg-black/40 items-center justify-center px-8">
+          <View className="bg-white rounded-2xl p-6 w-full max-w-md">
+            <Text className="text-xl font-bold mb-4 text-center">How to use this page</Text>
+            <Text className="text-gray-700 mb-6">
+              Select the topics you are interested in learning. You can choose multiple topics. 
+              Each topic contains 5 subtopics that you'll be able to explore in the next step. 
+              Once you've selected at least one topic, tap "Next" to continue.
+            </Text>
+            <TouchableOpacity
+              className="bg-[#00522A] py-3 rounded-full"
+              onPress={() => setInfoVisible(false)}
+              activeOpacity={0.8}
+            >
+              <Text className="text-white text-center font-semibold">Got it</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
