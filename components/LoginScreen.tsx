@@ -30,7 +30,7 @@ const LoginScreen = () => {
       </View>
 
       {/* Login Form Section */}
-      <View className="bg-white px-8 py-12 -mt-8">
+      <View className="bg-white px-8 py-12 -mt-8 rounded-t-3xl">
         <Text className="text-4xl font-bold text-gray-800 text-center mb-12">Login</Text>
         
         {/* Mobile Number Input */}

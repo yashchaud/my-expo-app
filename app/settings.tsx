@@ -1,14 +1,27 @@
 import { View, Text, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { useState } from 'react';
+import { ChevronLeft } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const [notifications, setNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <ScrollView className="flex-1 bg-gray-50">
-      <View className="p-6">
-        <Text className="text-3xl font-bold text-gray-800 mb-8">Settings</Text>
+    <View className="flex-1 bg-gray-50">
+      {/* Header */}
+      <View className="bg-white px-6 pt-12 pb-6 shadow-sm">
+        <View className="flex-row items-center">
+          <TouchableOpacity onPress={() => router.back()} className="mr-4">
+            <ChevronLeft size={24} color="#374151" />
+          </TouchableOpacity>
+          <Text className="text-2xl font-bold text-gray-800">Settings</Text>
+        </View>
+      </View>
+      
+      <ScrollView className="flex-1">
+        <View className="p-6">
         
         <View className="bg-white rounded-2xl p-6 shadow-sm mb-4">
           <Text className="text-xl font-semibold text-gray-800 mb-4">Preferences</Text>
@@ -51,5 +64,6 @@ export default function SettingsScreen() {
         </View>
       </View>
     </ScrollView>
+    </View>
   );
 }
