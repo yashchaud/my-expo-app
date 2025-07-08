@@ -63,7 +63,7 @@ const VideoIntroductionScreen = () => {
         <View className="flex-1 flex-row items-center justify-between px-4 py-4">
           <TouchableOpacity onPress={() => router.back()}>
             <View className="w-10 h-10 rounded-full bg-white/80 border border-gray-300 items-center justify-center">
-              <Text className="text-xl">←</Text>
+              <Text className="text-xl mb-2">←</Text>
             </View>
           </TouchableOpacity>
           

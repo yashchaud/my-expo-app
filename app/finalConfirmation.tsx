@@ -8,7 +8,7 @@ const FinalConfirmationScreen = () => {
   const handleNext = () => {
     // Navigate to the main app/course list screen
     console.log('Navigating to home screen...');
-    // Example: router.replace('/home'); 
+    router.replace('/login'); 
   };
 
   return (
