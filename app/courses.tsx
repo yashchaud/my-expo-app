@@ -1,22 +1,46 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { CircleArrowLeft, HelpCircle, Tractor, Landmark, Beef, Bug, Carrot, Users } from 'lucide-react-native';
+import { CircleArrowLeft, HelpCircle, Tractor, Landmark, Beef, Bug, Carrot, Users, Check } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface TopicCardProps {
   icon: React.ReactNode;
   title: string;
   onPress: () => void;
   color: string;
+  isSelected: boolean;
 }
 
-const TopicCard = ({ icon, title, onPress, color }: TopicCardProps) => {
+const TopicCard = ({ icon, title, onPress, color, isSelected }: TopicCardProps) => {
   return (
     <TouchableOpacity 
-      className="bg-white rounded-2xl items-center justify-center w-[48%] mb-4 py-6"
+      className={`rounded-2xl items-center justify-center w-[48%] mb-4 py-6 ${isSelected ? 'bg-green-100' : 'bg-white'}`}
       onPress={onPress}
       activeOpacity={0.7}
+      style={{
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 5.84,
+        elevation: 8, // for Android
+        // Additional styling for more 3D effect
+        borderWidth: 1,
+        borderColor: isSelected ? '#16a34a' : '#e5e7eb',
+        borderBottomWidth: 3,
+        borderRightWidth: 2,
+        borderBottomColor: isSelected ? '#14532d' : '#d1d5db',
+        borderRightColor: isSelected ? '#14532d' : '#d1d5db',
+      }}
     >
+      {/* Selection indicator */}
+      {isSelected && (
+        <View className="absolute top-2 right-2 bg-green-600 rounded-full p-1">
+          <Check size={16} color="white" />
+        </View>
+      )}
       {icon}
       <Text className="text-base font-semibold text-center mt-3" style={{ color }}>{title}</Text>
     </TouchableOpacity>
@@ -25,6 +49,7 @@ const TopicCard = ({ icon, title, onPress, color }: TopicCardProps) => {
 
 export default function CoursesScreen() {
   const router = useRouter();
+  const [selectedTopics, setSelectedTopics] = useState<number[]>([]);
 
   const topics = [
     { id: 1, title: 'Farming', icon: <Tractor size={40} color="#16a34a" />, color: '#16a34a' },
@@ -35,8 +60,14 @@ export default function CoursesScreen() {
     { id: 6, title: 'Family planning', icon: <Users size={40} color="#831843" />, color: '#831843' },
   ];
 
-  const handleTopicPress = (topic) => {
-    console.log(`Selected topic: ${topic.title}`);
+  const handleTopicPress = (topicId: number) => {
+    setSelectedTopics(prevState => {
+      if (prevState.includes(topicId)) {
+        return prevState.filter(id => id !== topicId);
+      } else {
+        return [...prevState, topicId];
+      }
+    });
   };
 
   return (
@@ -68,7 +99,8 @@ export default function CoursesScreen() {
                 title={topic.title}
                 icon={topic.icon}
                 color={topic.color}
-                onPress={() => handleTopicPress(topic)}
+                isSelected={selectedTopics.includes(topic.id)}
+                onPress={() => handleTopicPress(topic.id)}
               />
             ))}
           </View>
@@ -79,7 +111,7 @@ export default function CoursesScreen() {
             onPress={() => console.log('View More pressed')}
             activeOpacity={0.7}
           >
-            <Text className="text-gray-900 text-center font-semibold text-base underline">
+            <Text className="text-gray-900 text-center font-bold text-base underline">
               View More
             </Text>
           </TouchableOpacity>
@@ -89,12 +121,16 @@ export default function CoursesScreen() {
       {/* Next Button */}
       <View className="px-6 pb-10 pt-2 bg-[#fdfaf4]">
         <TouchableOpacity 
-          className="bg-[#00522A] py-4 rounded-full"
-          onPress={() => console.log('Next pressed')}
-          activeOpacity={0.8}
+          className={`py-4 rounded-full ${selectedTopics.length > 0 ? 'bg-[#00522A]' : 'bg-gray-400'}`}
+          onPress={() => selectedTopics.length > 0 && console.log('Next pressed with topics:', selectedTopics)}
+          activeOpacity={selectedTopics.length > 0 ? 0.8 : 1}
+          disabled={selectedTopics.length === 0}
         >
           <Text className="text-white text-center font-bold text-lg">
-            Next
+            {selectedTopics.length > 0 
+              ? `Next (${selectedTopics.length} topic${selectedTopics.length > 1 ? 's' : ''} selected)`
+              : 'Select at least one topic'
+            }
           </Text>
         </TouchableOpacity>
       </View>
