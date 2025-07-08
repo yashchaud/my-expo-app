@@ -1,17 +1,17 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useColorScheme } from 'nativewind';
 import '../global.css';
 
 export default function RootLayout() {
+  const { colorScheme } = useColorScheme();
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="courses" options={{ headerShown: false }} />
-        <Stack.Screen name="profile" options={{ headerShown: false }} />
-        <Stack.Screen name="settings" options={{ headerShown: false }} />
       </Stack>
     </>
   );
