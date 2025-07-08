@@ -25,7 +25,7 @@ const SelectLanguageScreen = () => {
 
   const handleWatchIntroduction = () => {
     // Navigate to introduction video or screen
-    router.push('/videoIntroduction');
+    router.push('/courses');
   };
 
   return (

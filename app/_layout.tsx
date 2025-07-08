@@ -23,6 +23,34 @@ export default function RootLayout() {
             animation: 'slide_from_bottom'
           }} 
         />
+        <Stack.Screen 
+          name="video" 
+          options={{ 
+            headerShown: false,
+            presentation: 'fullScreenModal'
+          }} 
+        />
+        <Stack.Screen 
+          name="theory" 
+          options={{ 
+            headerShown: false,
+            animation: 'slide_from_right'
+          }} 
+        />
+        <Stack.Screen 
+          name="maps" 
+          options={{ 
+            headerShown: false,
+            animation: 'slide_from_right'
+          }} 
+        />
+        <Stack.Screen 
+          name="quiz-intro" 
+          options={{ 
+            headerShown: false,
+            animation: 'slide_from_right'
+          }} 
+        />
       </Stack>
     </>
   );

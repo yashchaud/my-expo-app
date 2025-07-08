@@ -10,32 +10,9 @@ const ResponsiveMaps = () => {
     <View className="bg-gray-50 p-4">
       {/* Header */}
       <Text className="text-2xl font-bold mb-4">Responsive Maps.</Text>
+  
 
-      {/* Share Location Button */}
-      <TouchableOpacity className="bg-green-600 rounded-lg p-4 flex-row items-center justify-center mb-4">
-        <MapPin size={20} color="white" />
-        <Text className="text-white font-medium ml-2">Share Current Location</Text>
-      </TouchableOpacity>
-
-      <Text className="text-center text-gray-500 mb-4">OR</Text>
-
-      {/* Location Selectors */}
-      <View className="flex-row gap-4 mb-6">
-        <View className="flex-1">
-          <Text className="text-sm text-gray-600 mb-2">Select State</Text>
-          <TouchableOpacity className="bg-white border border-gray-300 rounded-lg p-3">
-            <Text className="text-gray-700">{selectedState}</Text>
-          </TouchableOpacity>
-        </View>
-        
-        <View className="flex-1">
-          <Text className="text-sm text-gray-600 mb-2">District</Text>
-          <TouchableOpacity className="bg-white border border-gray-300 rounded-lg p-3">
-            <Text className="text-gray-700">{selectedDistrict}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
+  
       {/* Map Image */}
       <View className="bg-white rounded-lg overflow-hidden mb-6">
         <Image

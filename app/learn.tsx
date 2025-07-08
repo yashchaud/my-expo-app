@@ -116,6 +116,7 @@ export default function LearnScreen() {
 
   const handleNext = () => {
     console.log('Selected subtopics:', selectedSubtopics);
+    router.push('/videoIntroduction');
     // Navigate to next screen
   };
 
