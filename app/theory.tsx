@@ -39,7 +39,7 @@ const TheoryPage = () => {
       <View className="p-4">
         <TouchableOpacity 
           onPress={() => router.push('/maps')} 
-          className="bg-green-600 rounded-lg py-4"
+          className="bg-green-600 rounded-lg py-4 mb-6"
         >
           <Text className="text-white text-center font-semibold text-lg">Next</Text>
         </TouchableOpacity>

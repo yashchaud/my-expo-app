@@ -25,7 +25,7 @@ const ResponsiveMaps = () => {
       </View>
 
       {/* Information Text */}
-      <Text className="text-gray-700 mb-6">
+      <Text className="text-gray-700 mb-6 text-justify">
         In Latur, a drought-prone area in Maharashtra, farmers are increasingly adopting regenerative farming practices, including rain-water farming, afforestation, and climate-resilient techniques to improve soil health, water availability, and crop yields.
       </Text>
 
@@ -37,10 +37,10 @@ const ResponsiveMaps = () => {
           {/* Drought-Prone Area */}
           <View>
             <Text className="font-medium text-gray-800">-Drought-Prone Area</Text>
-            <Text className="text-gray-600 ml-2">
+            <Text className="text-gray-600 ml-2 text-justify">
               • Latur has historically faced challenges with erratic rainfall, groundwater depletion,
             </Text>
-            <Text className="text-gray-600 ml-2">
+            <Text className="text-gray-600 ml-2 text-justify">
               • The area has seen farmers struggle with water scarcity, degraded soils, and unstable crop practices.
             </Text>
           </View>

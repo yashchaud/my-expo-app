@@ -39,7 +39,7 @@ const MapsPage = () => {
       <View className="p-4 bg-gray-50">
         <TouchableOpacity 
           onPress={() => router.push('/quiz')} 
-          className="bg-green-600 rounded-lg py-4"
+          className="bg-green-600 rounded-lg py-4 mb-6"
         >
           <Text className="text-white text-center font-semibold text-lg">Take a Quiz</Text>
         </TouchableOpacity>
